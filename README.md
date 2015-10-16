@@ -6,13 +6,14 @@
 
 ## Description
 
-_This is an example of a site for a bookstore made in Drupal.  It features a Home and About, and Contact page.  Users of the Reviewer type are able to submit new book reviews, and the 3 newest reviews are shown on the About page.  The site configuration and book review content type and view are saved as features._
+_This is an example of a site for a bookstore made in Drupal.  It features a Home and About, and Contact page.  Users of the Reviewer type are able to submit new book reviews, and the 3 newest reviews are shown on the About page.  The site configuration and book review content type and view are saved as features.  A coupon code is shown only to authenticated users._
 
 
 **Login Accounts (Username / Password):**
 
 - admin  / password
 - reviewer / password
+- authenticated / password
 
 ## Setup
 
