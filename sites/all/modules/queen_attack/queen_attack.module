@@ -22,9 +22,7 @@ function queen_attack_form() {
   $form['queen_latifahs_position1'] = array(
     '#title' => "Queen Latifah's Position",
     '#type' => 'select',
-    // '#options' => array('A' => 1,'B' => 2,'C' => 3,'D' => 4,'E' => 5,'F' => 6,'G' => 7,'H' => 8),
     '#options' => array(1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D', 5 =>'E', 6 => 'F', 7 => 'G', 8 => 'H'),
-
     '#description' => t("Queen's position (letter):"),
   );
 
@@ -71,14 +69,14 @@ function queen_attack_form_submit($form, &$form_state) {
     $_SESSION['result'] = 'false';
   }
 
-  // $_SESSION['queen_output'] = $queen_pos1 . $queen_pos2;
-  // $_SESSION['target_output'] = $target_pos1 . $target_pos2;
-
   $form_state['redirect'] = 'queen_attack_results_page';
 }
 
 function queen_attack_result() {
-  // $result = $_SESSION['queen_output'] . ' ' . $_SESSION['target_output'];
   $result = $_SESSION['result'];
-  return 'Results: ' . $result;
+  if ($result === 'true') {
+    return "Queen Latifah is ready to attack!!";
+  } else {
+    return "You're in the clear for now, pawn.";
+  }
 }

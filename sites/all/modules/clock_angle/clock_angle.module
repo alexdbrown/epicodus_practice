@@ -1,0 +1,72 @@
+<?php
+
+function clock_angle_menu() {
+  $items['clock_angle'] = array(
+    'title' => 'Clock Angle',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clock_angle_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['clock_angle_success_page'] = array(
+    'title' => 'Success',
+    'page callback' => 'clock_angle_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function clock_angle_form() {
+  $form['time'] = array(
+    '#title' => 'Enter The Time',
+    '#type' => 'textfield',
+    '#attributes' => array('placeholder' => t('Insert time (06:35)')),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  return $form;
+}
+
+function clock_angle_form_submit($form, &$form_state) {
+  $time_submitted = $form_state['values']['time'];
+  $_SESSION['time_submitted'] = $time_submitted;
+  $time_exploded = explode(':', $time_submitted);
+  $hour_value = $time_exploded[0];
+  $minute_value = $time_exploded[1];
+
+  $hour_degree = ($hour_value * 30) + ($minute_value * .5);
+  $minute_degree = $minute_value * 6;
+
+  if (abs($hour_degree - $minute_degree) < 180) {
+    $_SESSION['angle'] = (abs($hour_degree - $minute_degree));
+  } else {
+    $_SESSION['angle'] = (360 - abs($hour_degree - $minute_degree));
+  }
+
+  $form_state['redirect'] = 'clock_angle_success_page';
+}
+
+function clock_angle_success() {
+  return "At " .  $_SESSION['time_submitted'] . " the hands are " . $_SESSION['angle'] . " degrees apart!";
+}
+
+
+
+
+//hour hand moves .5 degrees per minute
+//minute hand moves 6 degrees per minute
+
+// function clock_angle_validate($form, &$form_state) {
+//   $hours = array();
+//   for(var i = 1; i <= 12; i++) {
+//     array_push($hours,$i);
+//   }
+//   $allowed = $hours;
+//   if (!in_array($form_state['values']['hour'],$allowed)) {
+//     form_set_error('hour',t('You must enter a valid hour (1-12)'));
+//   }
+// }
