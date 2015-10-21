@@ -19,16 +19,33 @@ function queen_attack_menu() {
 }
 
 function queen_attack_form() {
-  $form['queen_latifahs_position'] = array(
+  $form['queen_latifahs_position1'] = array(
     '#title' => "Queen Latifah's Position",
-    '#type' => 'textfield',
-    '#description' => t('Where is the queen?'),
+    '#type' => 'select',
+    // '#options' => array('A' => 1,'B' => 2,'C' => 3,'D' => 4,'E' => 5,'F' => 6,'G' => 7,'H' => 8),
+    '#options' => array(1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D', 5 =>'E', 6 => 'F', 7 => 'G', 8 => 'H'),
+
+    '#description' => t("Queen's position (letter):"),
   );
 
-  $form['target_position'] = array(
-    '#title' => "Target Position",
-    '#type' => 'textfield',
-    '#description' => t('Where is the target piece?'),
+  $form['queen_latifahs_position2'] = array(
+    '#type' => 'select',
+    '#options' => array(1 => 1,2 => 2,3 => 3,4 => 4,5 => 5,6 => 6,7 => 7,8 => 8),
+
+    '#description' => t("Queen's position (number):"),
+  );
+
+  $form['target_position1'] = array(
+    '#title' => "Target's Position",
+    '#type' => 'select',
+    '#options' => array(1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D', 5 =>'E', 6 => 'F', 7 => 'G', 8 => 'H'),
+    '#description' => t("Target's position (letter):"),
+  );
+
+  $form['target_position2'] = array(
+    '#type' => 'select',
+    '#options' => array(1 => 1,2 => 2,3 => 3,4 => 4,5 => 5,6 => 6,7 => 7,8 => 8),
+    '#description' => t("Target's position (number):"),
   );
 
   $form['submit'] = array(
@@ -39,16 +56,29 @@ function queen_attack_form() {
 }
 
 function queen_attack_form_submit($form, &$form_state) {
-  $queen_pos = $form_state['values']['queen_latifahs_position'];
-  $target_pos = $form_state['values']['target_position'];
+  $queen_pos1 = $form_state['values']['queen_latifahs_position1'];
+  $queen_pos2 = $form_state['values']['queen_latifahs_position2'];
+  $target_pos1 = $form_state['values']['target_position1'];
+  $target_pos2 = $form_state['values']['target_position2'];
 
-  $_SESSION['queen_output'] = $queen_pos;
-  $_SESSION['target_output'] = $target_pos;
+  if ($queen_pos2 === $target_pos2) {
+    $_SESSION['result'] = 'true';
+  } elseif ($queen_pos1 === $target_pos1) {
+    $_SESSION['result'] = 'true';
+  } elseif (abs($queen_pos1-$target_pos1)-abs($queen_pos2-$target_pos2) == 0)  {
+    $_SESSION['result'] = 'true';
+  }  else {
+    $_SESSION['result'] = 'false';
+  }
+
+  // $_SESSION['queen_output'] = $queen_pos1 . $queen_pos2;
+  // $_SESSION['target_output'] = $target_pos1 . $target_pos2;
 
   $form_state['redirect'] = 'queen_attack_results_page';
 }
 
 function queen_attack_result() {
-  $result = $_SESSION['queen_output'] . ' ' . $_SESSION['target_output'];
+  // $result = $_SESSION['queen_output'] . ' ' . $_SESSION['target_output'];
+  $result = $_SESSION['result'];
   return 'Results: ' . $result;
 }
