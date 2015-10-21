@@ -1,6 +1,6 @@
 <?php
 
-function pint_pong_menu() {
+function ping_pong_menu() {
   $items = array();
   $items['ping_pong'] = array(
       'title' => 'Ping Pong Problem',
@@ -42,7 +42,7 @@ function ping_pong_form_submit($form, &$form_state) {
       array_push($pingpong_output, "ping-pong");
     } elseif ($i % 3 == 0) {
       array_push($pingpong_output, "ping");
-    } else ($i & 5 == 0) {
+    } elseif ($i & 5 == 0) {
       array_push($pingpong_output, $i);
     }
   }

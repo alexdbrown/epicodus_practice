@@ -1,0 +1,5 @@
+name = Title Case
+description = Changes input into title case and displays it on a success page.
+package = Epicodus Examples
+core = 7.x
+files[] = title_case.module

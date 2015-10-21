@@ -213,15 +213,15 @@
  * @endcode
  */
 $databases = array (
-  'default' => 
+  'default' =>
   array (
-    'default' => 
+    'default' =>
     array (
       'database' => 'bookstore',
       'username' => 'admin',
       'password' => 'password',
-      'host' => 'localhost',
-      'port' => '',
+      'host' => '127.0.0.1',
+      'port' => '8889',
       'driver' => 'mysql',
       'prefix' => '',
     ),

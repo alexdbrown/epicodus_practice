@@ -51,5 +51,3 @@ function sum_success() {
   $answer = $_SESSION['sum_output'];
   return 'You calculated a sum! The answer is: ' . $answer;
 }
-
-?>
