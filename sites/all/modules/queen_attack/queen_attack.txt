@@ -1,0 +1,58 @@
+behavior
+returns user-inputted position
+
+input
+6D
+
+output
+6D
+
+
+behavior
+returns both user-inputted positions
+
+input
+6D, 1A
+
+output
+6D, 1A
+
+
+behavior
+checks if inputs are on same row
+
+input
+1D, 1A
+
+output
+true
+
+
+behavior
+checks if inputs are on same column
+
+input
+1B, 2B
+
+output
+true
+
+
+behavior
+checks if inputs are on same diagonal
+
+input
+1A, 2B
+
+output
+true
+
+
+behavior
+checks if inputs are on same diagonal
+
+input
+1B, 2A
+
+output
+true

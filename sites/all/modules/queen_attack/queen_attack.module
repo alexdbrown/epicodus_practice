@@ -1,0 +1,39 @@
+<?php
+
+function queen_attack_menu() {
+  $items['queen_attack'] = array(
+    'title' => 'Queen Attack',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_results_page'] = array(
+    'title' => 'Attack?',
+    'page callback' => 'queen_attack_result',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function queen_attack_form() {
+  $form['queen_latifahs_position'] = array(
+    '#title' => "Queen Latifah's Position",
+    '#type' => 'textfield',
+    '#description' => t('Where is the queen?'),
+  );
+
+  $form['pawns_position'] = array(
+    '#title' => "Target Position",
+    '#type' => 'textfield',
+    '#description' => t('Where is the target piece?'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Queen Attack?',
+  );
+  return $form;
+}

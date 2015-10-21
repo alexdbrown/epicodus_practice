@@ -1,0 +1,5 @@
+name = Queen Attack
+description = Determines if a queen can take another piece on a chessboard.
+package = Epicodus Examples
+core = 7.x
+files[] = queen_attack.module
