@@ -25,7 +25,7 @@ function queen_attack_form() {
     '#description' => t('Where is the queen?'),
   );
 
-  $form['pawns_position'] = array(
+  $form['target_position'] = array(
     '#title' => "Target Position",
     '#type' => 'textfield',
     '#description' => t('Where is the target piece?'),
@@ -36,4 +36,19 @@ function queen_attack_form() {
     '#value' => 'Queen Attack?',
   );
   return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  $queen_pos = $form_state['values']['queen_latifahs_position'];
+  $target_pos = $form_state['values']['target_position'];
+
+  $_SESSION['queen_output'] = $queen_pos;
+  $_SESSION['target_output'] = $target_pos;
+
+  $form_state['redirect'] = 'queen_attack_results_page';
+}
+
+function queen_attack_result() {
+  $result = $_SESSION['queen_output'] . ' ' . $_SESSION['target_output'];
+  return 'Results: ' . $result;
 }
