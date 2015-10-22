@@ -1,0 +1,4 @@
+name = Rock Paper Scissors
+description = Lets users play rock paper scissors
+core = 7.x
+files[] = rock_paper_scissors.module

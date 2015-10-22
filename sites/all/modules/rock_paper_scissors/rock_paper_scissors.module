@@ -1,0 +1,95 @@
+<?php
+
+function rock_paper_scissors_menu() {
+  $items['rock_paper_scissors'] = array(
+    'title' => 'Rock Paper Scissors',
+    'page callback' => 'drupal_get_form',
+    'access callback' => TRUE,
+    'page arguments' => array('player_one_form'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['rock_paper_scissors_player_dos'] = array(
+    'title' => 'Rock Paper Scissors',
+    'page callback' => 'drupal_get_form',
+    'access callback' => TRUE,
+    'page arguments' => array('player_two_form'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['rock_paper_scissors_results_page'] = array(
+    'title' => 'And the winner is...',
+    'page callback' => 'rock_paper_scissors_result',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function player_one_form() {
+  $form['player_one'] = array(
+    '#title' => 'Player 1: Rock, Paper or Scissors?',
+    '#type' => 'select',
+    '#options' => array('Rock' => 'Rock', 'Paper' => 'Paper', 'Scissors' => 'Scissors'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Good Luck',
+  );
+
+  return $form;
+}
+
+function player_one_form_submit($form, &$form_state) {
+  $_SESSION['player_one'] = $form_state['values']['player_one'];
+  $form_state['redirect'] = 'rock_paper_scissors_player_dos';
+
+}
+
+function player_two_form() {
+  $form['player_two'] = array(
+    '#title' => 'Player 2: Rock, Paper or Scissors?',
+    '#type' => 'select',
+    '#options' => array('Rock' => 'Rock', 'Paper' => 'Paper', 'Scissors' => 'Scissors'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Good Luck',
+  );
+
+  return $form;
+
+}
+
+function player_two_form_submit($form, &$form_state) {
+  $_SESSION['player_two'] = $form_state['values']['player_two'];
+
+  if ($_SESSION['player_one'] === $_SESSION['player_two']) {
+    $_SESSION['result'] = 'Draw! Play Again.';
+  } elseif ($_SESSION['player_one'] === 'Rock' && $_SESSION['player_two'] === 'Scissors') {
+    $_SESSION['result'] = 'Player 1 Wins!';
+  } elseif ($_SESSION['player_one'] === 'Rock' && $_SESSION['player_two'] === 'Paper') {
+    $_SESSION['result'] = 'Player 2 Wins!';
+  } elseif ($_SESSION['player_one'] === 'Paper' && $_SESSION['player_two'] === 'Scissors') {
+    $_SESSION['result'] = 'Player 2 Wins!';
+  } elseif ($_SESSION['player_one'] === 'Paper' && $_SESSION['player_two'] === 'Rock') {
+    $_SESSION['result'] = 'Player 1 Wins!';
+  } elseif ($_SESSION['player_one'] === 'Scissors' && $_SESSION['player_two'] === 'Rock') {
+    $_SESSION['result'] = 'Player 2 Wins!';
+  } elseif ($_SESSION['player_one'] === 'Scissors' && $_SESSION['player_two'] === 'Paper') {
+    $_SESSION['result'] = 'Player 1 Wins!';
+  }
+
+  $form_state['redirect'] = 'rock_paper_scissors_results_page';
+
+}
+
+function rock_paper_scissors_result() {
+
+  return $_SESSION['result'];
+}
