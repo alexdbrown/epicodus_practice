@@ -1,0 +1,138 @@
+<?php
+
+function state_poll_menu() {
+  $items['state_poll'] = array(
+    'title' => 'Ice Cream Poll',
+    'page callback' => 'drupal_get_form',
+    'access callback' => TRUE,
+    'page arguments' => array('state_poll_form'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['state_poll_success_page'] = array(
+    'title' => 'Success',
+    'page callback' => 'state_poll_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function state_poll_form() {
+  $form['ice_cream_flavor'] = array(
+    '#title' => 'Favorite Flavor of Ice Cream',
+    '#type' => 'textfield',
+    // '#element_validate' => array('element_validate_alpha'),
+  );
+
+  $form['state'] = array(
+    '#title' => 'State',
+    '#type' => 'textfield',
+    '#description' => t('Enter the state you are in'),
+    '#element_validate' => array('element_validate_state'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'ICE SCREAM!',
+  );
+
+  return $form;
+}
+
+function state_poll_form_submit($form, &$form_state) {
+  $ice_cream = (strtolower($form_state['values']['ice_cream_flavor']));
+  $state_name = (strtolower($form_state['values']['state']));
+
+  $_SESSION['ice_cream'] = $ice_cream;
+  $_SESSION['state'] = $state_name;
+
+  if (!$_SESSION['ice_scream']) {
+    $_SESSSION['ice_scream'] = array();
+  }
+
+  if (array_key_exists($ice_cream, $_SESSION['ice_scream'])) {
+    $_SESSION['ice_scream'][$ice_cream]++;
+  } else {
+    $_SESSION['ice_scream'][$ice_cream] = 1;
+  }
+
+  $form_state['redirect'] = 'state_poll_success_page';
+}
+
+function state_poll_success() {
+  return "<p>You said you like " . $_SEESION['ice_cream'] . " and you are from " . $_SESSION['state'] . ".</p>"
+          . "<p> Here are the other results we have collected: ";
+
+
+}
+
+
+function element_validate_state($element) {
+  $states = array(
+  	'AL'=>'ALABAMA',
+  	'AK'=>'ALASKA',
+  	'AS'=>'AMERICAN SAMOA',
+  	'AZ'=>'ARIZONA',
+  	'AR'=>'ARKANSAS',
+  	'CA'=>'CALIFORNIA',
+  	'CO'=>'COLORADO',
+  	'CT'=>'CONNECTICUT',
+  	'DE'=>'DELAWARE',
+  	'DC'=>'DISTRICT OF COLUMBIA',
+  	'FM'=>'FEDERATED STATES OF MICRONESIA',
+  	'FL'=>'FLORIDA',
+  	'GA'=>'GEORGIA',
+  	'GU'=>'GUAM GU',
+  	'HI'=>'HAWAII',
+  	'ID'=>'IDAHO',
+  	'IL'=>'ILLINOIS',
+  	'IN'=>'INDIANA',
+  	'IA'=>'IOWA',
+  	'KS'=>'KANSAS',
+  	'KY'=>'KENTUCKY',
+  	'LA'=>'LOUISIANA',
+  	'ME'=>'MAINE',
+  	'MH'=>'MARSHALL ISLANDS',
+  	'MD'=>'MARYLAND',
+  	'MA'=>'MASSACHUSETTS',
+  	'MI'=>'MICHIGAN',
+  	'MN'=>'MINNESOTA',
+  	'MS'=>'MISSISSIPPI',
+  	'MO'=>'MISSOURI',
+  	'MT'=>'MONTANA',
+  	'NE'=>'NEBRASKA',
+  	'NV'=>'NEVADA',
+  	'NH'=>'NEW HAMPSHIRE',
+  	'NJ'=>'NEW JERSEY',
+  	'NM'=>'NEW MEXICO',
+  	'NY'=>'NEW YORK',
+  	'NC'=>'NORTH CAROLINA',
+  	'ND'=>'NORTH DAKOTA',
+  	'MP'=>'NORTHERN MARIANA ISLANDS',
+  	'OH'=>'OHIO',
+  	'OK'=>'OKLAHOMA',
+  	'OR'=>'OREGON',
+  	'PW'=>'PALAU',
+  	'PA'=>'PENNSYLVANIA',
+  	'PR'=>'PUERTO RICO',
+  	'RI'=>'RHODE ISLAND',
+  	'SC'=>'SOUTH CAROLINA',
+  	'SD'=>'SOUTH DAKOTA',
+  	'TN'=>'TENNESSEE',
+  	'TX'=>'TEXAS',
+  	'UT'=>'UTAH',
+  	'VT'=>'VERMONT',
+  	'VI'=>'VIRGIN ISLANDS',
+  	'VA'=>'VIRGINIA',
+  	'WA'=>'WASHINGTON',
+  	'WV'=>'WEST VIRGINIA',
+  	'WI'=>'WISCONSIN',
+  	'WY'=>'WYOMING',
+);
+
+  if (!(array_key_exists(strToUpper($element['#value']), $states) || in_array(strToUpper($element['#value']), $states))) {
+    form_error($element, t('Not a valid state, brah!'));
+  }
+}

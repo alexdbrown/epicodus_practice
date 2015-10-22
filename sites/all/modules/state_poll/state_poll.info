@@ -1,0 +1,5 @@
+name = State Poll
+description = Polls users on ice cream flavors and their state, validates the state and returns the form information.
+package = Epicodus Examples
+core = 7.x
+files[] = state_poll.module
