@@ -23,6 +23,7 @@ function state_poll_form() {
   $form['ice_cream_flavor'] = array(
     '#title' => 'Favorite Flavor of Ice Cream',
     '#type' => 'textfield',
+    '#required' => TRUE,
     // '#element_validate' => array('element_validate_alpha'),
   );
 
@@ -31,6 +32,7 @@ function state_poll_form() {
     '#type' => 'textfield',
     '#description' => t('Enter the state you are in'),
     '#element_validate' => array('element_validate_state'),
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -52,6 +54,7 @@ function state_poll_form_submit($form, &$form_state) {
     $_SESSSION['ice_scream'] = array();
   }
 
+
   if (array_key_exists($ice_cream, $_SESSION['ice_scream'])) {
     $_SESSION['ice_scream'][$ice_cream]++;
   } else {
@@ -62,9 +65,19 @@ function state_poll_form_submit($form, &$form_state) {
 }
 
 function state_poll_success() {
-  return "<p>You said you like " . $_SEESION['ice_cream'] . " and you are from " . $_SESSION['state'] . ".</p>"
-          . "<p> Here are the other results we have collected: ";
+  if (strlen($_SESSION['state']) > 2) {
+    $_SESSION['state'] = ucfirst($_SESSION['state']);
+  } else {
+    $_SESSION['state'] = strToUpper($_SESSION['state']);
+  }
+  $poll = '<ul>';
+  foreach ($_SESSION['ice_scream'] as $key => $value) {
+    $poll .= '<li>' . $key . ": " . $value . '</li>';
+  }
+  $poll .= '</ul>';
 
+  return "<p>Thank you we have you down for " . $_SESSION['ice_cream'] . " and you are from " . $_SESSION['state'] . ".</p>"
+          . "<p> Here are the other results we have collected: " . $poll;
 
 }
 
